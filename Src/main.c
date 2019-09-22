@@ -33,7 +33,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define LED0  0
+#define LED1  1
+#define ON    0
+#define OFF   1
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,7 +54,33 @@
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
+/**
+  * @brief  control led light on or light off
+  * @retval int
+  */
+int led_control(uint8_t num, uint8_t status)
+{
+  if(num != LED0 && num != LED1)
+  {
+    return -1;
+  }
 
+  if(status != ON && status != OFF)
+  {
+    return -1;
+  }
+
+  if (num == LED0)
+  {
+    HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, status);
+  }
+  else if (num == LED1)
+  {
+    HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, status);
+  }
+
+  return 0;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -89,7 +118,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+  led_control(LED0, ON);
+  led_control(LED1, ON);
   /* USER CODE END 2 */
 
   /* Infinite loop */
